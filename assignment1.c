@@ -74,46 +74,46 @@ void infixToPostfix(char *exp, char *postfix)
     Stack opStack;
     //operator stack
     initialize(&opStack);
-    int k = 0;
+    int postIndex = 0;
 
-    for (int i = 0; exp[i] != '\0'; i++)
+    for (int index = 0; exp[index] != '\0'; index++)
     {
-        if (exp[i] == ' ')
+        if (exp[index] == ' ')
             continue;
 
         //operand
-        if (isDigit(exp[i]))
+        if (isDigit(exp[index]))
         {
-            while (isDigit(exp[i]))
+            while (isDigit(exp[index]))
             {
-                postfix[k++] = exp[i++];
+                postfix[postIndex++] = exp[index++];
             }
-            postfix[k++] = ' ';
-            i--;
+            postfix[postIndex++] = ' ';
+            index--;
         }
 
         //operator
-        else if (isOperator(exp[i])){
-            while (opStack.top != -1 && operatorPrecedence(opStack.arr[opStack.top]) >= operatorPrecedence(exp[i])){
-                postfix[k++] = pop(&opStack);
-                postfix[k++] = ' ';
+        else if (isOperator(exp[index])){
+            while (opStack.top != -1 && operatorPrecedence(opStack.arr[opStack.top]) >= operatorPrecedence(exp[index])){
+                postfix[postIndex++] = pop(&opStack);
+                postfix[postIndex++] = ' ';
             }
-            push(&opStack, exp[i]);
+            push(&opStack, exp[index]);
         }
         else{
             printf("Invalid  Expression \n");
-            exit(EXIT_FAILURE);
+            return;
         }
     }
 
     // pop remaining operators out of stack
     while (opStack.top != -1)
     {
-        postfix[k++] = pop(&opStack);
-        postfix[k++] = ' ';
+        postfix[postIndex++] = pop(&opStack);
+        postfix[postIndex++] = ' ';
     }
 
-    postfix[k] = '\0';
+    postfix[postIndex] = '\0';
 }
 
 int evalPostfix(char *postfix)
@@ -121,42 +121,44 @@ int evalPostfix(char *postfix)
     Stack opStack;
     initialize(&opStack);
 
-    for (int i = 0; postfix[i]; i++)
+    for (int index = 0; postfix[index]; index++)
     {
-        if (isDigit(postfix[i])){
+        if (isDigit(postfix[index])){
             int num = 0;
-            while (isDigit(postfix[i])){
-                num = num*10 + (postfix[i]-'0');
-                i++;
+            while (isDigit(postfix[index])){
+                num = num*10 + (postfix[index]-'0');
+                index++;
             }
-            i--;
+            index--;
             push(&opStack, num);
         }
-        else if (isOperator(postfix[i])){
+        else if (isOperator(postfix[index])){
             if (opStack.top < 1){
                 printf("Error: Invalid Postfix Expression \n");
-                exit(EXIT_FAILURE);
+                return -1;
+                //signify error
             }
-            int b = pop(&opStack);
-            int a = pop(&opStack);
+            int opr2 = pop(&opStack);
+            int opr1 = pop(&opStack);
 
-            switch (postfix[i])
+            switch (postfix[index])
             {
             case '+':
-                push(&opStack, a+b);
+                push(&opStack, opr1+opr2);
                 break;
             case '-':
-                push(&opStack, a-b);
+                push(&opStack, opr1-opr2);
                 break;
             case '*':
-                push(&opStack, a*b);
+                push(&opStack, opr1*opr2);
                 break;
             case '/':
-                if (b == 0){
+                if (opr2 == 0){
                     printf("Error: Division by ZERO \n");
-                    exit(EXIT_FAILURE);
+                    return -1;
+                    //signify error
                 }
-                push(&opStack, a / b);
+                push(&opStack, opr1 / opr2);
                 break;
             }
         }
