@@ -14,7 +14,12 @@ typedef struct {
 // function to create a file if it doesn't already exists
 void createFile(){
     FILE *fptr = fopen(FILE_NAME, "a");
-    if(fptr) fclose(fptr); 
+    if(fptr){
+        printf("file created successfully");
+        fclose(fptr);
+    }else{
+        printf("error creating file\n");
+    }
 }
 
 
@@ -37,7 +42,7 @@ void addUser(){
     printf("enter age of user : ");
     scanf("%d", &user.age);
     
-    fprintf(fptr, "%d, %s, %d\n", user.id, user.name, user.age);
+    fprintf(fptr, "%d,%s,%d\n", user.id, user.name, user.age);
     fclose(fptr);
     printf("User added successfull \n");
 }
@@ -52,8 +57,11 @@ void displayUsers(){
     }
 
     User user;
-    while(fscanf(fptr, "%d,%49[^,],%d\n", &user.id, user.name, &user.age) != EOF){
-        printf("%d\t%-25s%d\n", user.id, user.name, user.age);
+    
+    printf("list of user is as follows : \n");
+    
+    while(fscanf(fptr, "%d,%[^,],%d\n", &user.id, user.name, &user.age) != EOF){
+        printf("%d\t%s\t%d\n", user.id, user.name, user.age);
     }
 
     fclose(fptr);
@@ -81,7 +89,7 @@ void updateUser(){
         return;
     }
 
-    while(fscanf(fptr, "%d,%49[^,],%d\n", &user.id, user.name, &user.age) != EOF){
+    while(fscanf(fptr, "%d,%[^,],%d\n", &user.id, user.name, &user.age) != EOF){
         if(user.id == id){
             found = 1;
             printf("enter new name: ");
@@ -127,7 +135,7 @@ void deleteUser(){
         return;
     }
 
-    while(fscanf(fptr, "%d,%49[^,],%d\n", &user.id, user.name, &user.age) != EOF){
+    while(fscanf(fptr, "%d,%[^,],%d\n", &user.id, user.name, &user.age) != EOF){
         if(user.id != id){
             fprintf(tempFile, "%d,%s,%d\n", user.id, user.name, user.age);
         }else{
@@ -179,7 +187,7 @@ int main(){
                 deleteUser();
                 break;
             default:
-                printf("Invalid Choice\n");
+                printf("Program Terminated\n");
         }
     } while(choice != 5);
 
