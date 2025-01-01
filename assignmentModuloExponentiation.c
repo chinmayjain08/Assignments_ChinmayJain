@@ -3,6 +3,8 @@
 long long mathModExponentiation(long long b, long long n, long long m){
     long long result = 1;
     
+    //(a*b) % m = [(a % m) * (b % m)] % m
+
     while(n>0){
         if(n % 2 == 1){
             result = (result*b) % m;
