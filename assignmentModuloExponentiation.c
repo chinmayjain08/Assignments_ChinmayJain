@@ -1,17 +1,17 @@
 #include<stdio.h>
 
-long long mathModExponentiation(long long b, long long n, long long m){
+long long mathModExponentiation(long long base, long long power, long long modNum){
     long long result = 1;
     
     //(a*b) % m = [(a % m) * (b % m)] % m
 
-    while(n>0){
-        if(n % 2 == 1){
-            result = (result*b) % m;
+    while(power>0){
+        if(power % 2 == 1){
+            result = (result*base) % modNum;
         }
         
-        n = n/2;
-        b = (b*b) %  m;
+        power = power/2;
+        base = (base*base) %  modNum;
     }
 
     return result;
@@ -19,11 +19,22 @@ long long mathModExponentiation(long long b, long long n, long long m){
 
 int main(){
 
-    long long b, n, m;
-    printf("enter values for b, n and m: ");
-    scanf("%lld %lld %lld", &b, &n, &m);
+    long long base, power, modNum;
+    printf("enter values for base, power and modNumber: ");
+    scanf("%lld %lld %lld", &base, &power, &modNum);
 
-    long long answer = mathModExponentiation(b, n, m);
+    if(base < 0){
+        printf("enter value of base again : ");
+        scanf("%lld", &base);
+    }else if(power < 0){
+        printf("enter value of power again : ");
+        scanf("%lld", &power);
+    }else if(modNum < 0){
+        printf("enter value of modNum again : ");
+        scanf("%lld", &modNum);
+    }
+
+    long long answer = mathModExponentiation(base, power, modNum);
     printf("Result : %lld", answer);
 
     return 0;
