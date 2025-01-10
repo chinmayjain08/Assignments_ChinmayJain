@@ -11,28 +11,10 @@ int strLength(char* str){
     return len;
 }
 
-int main() {
-    
-    int rows;
-    int cols;
-    
-    printf("Enter the number of rows : ");
-    scanf("%d", &rows);
-    printf("Enter the number of columns : ");
-    scanf("%d", &cols);
-    
-    char*** namesMatrix = (char***)malloc(rows * sizeof(char**));
-    for(int i=0; i<rows; i++){
-        namesMatrix[i] = (char**)malloc(cols * sizeof(char*));
-        for(int j=0; j<cols; j++){
-            namesMatrix[i][j] = (char*)malloc(51 * sizeof(char));
-        }
-    }
-    
+void vowelStartingCountAndLongestName(char*** namesMatrix,int rows, int cols){
     int maxLength = 0;
     char* longestName = "";
     int vowelStartingNames = 0;
-    
     printf("Enter the names : \n");
     for(int i=0; i<rows; i++){
         for(int j=0; j<cols; j++){
@@ -48,7 +30,6 @@ int main() {
             }
         }
     }
-    
     printf("The 2D array of names is : \n");
     for(int i=0; i<rows; i++){
         for(int j=0; j<cols; j++){
@@ -58,6 +39,35 @@ int main() {
     }
     printf("Number of names starting with a vowel : %d\n", vowelStartingNames);
     printf("The longest name : %s\n", longestName);
+}
+
+int main() {
+    
+    int rows;
+    int cols;
+    
+    printf("Enter the number of rows : ");
+    scanf("%d", &rows);
+    printf("Enter the number of columns : ");
+    scanf("%d", &cols);
+
+    if(rows<0){
+        printf("Enter the number of rows again : ");
+        scanf("%d", &rows);
+    }else if(cols<0){
+        printf("Enter the number of cols : ");
+        scanf("%d", &cols);
+    }
+    
+    char*** namesMatrix = (char***)malloc(rows * sizeof(char**));
+    for(int i=0; i<rows; i++){
+        namesMatrix[i] = (char**)malloc(cols * sizeof(char*));
+        for(int j=0; j<cols; j++){
+            namesMatrix[i][j] = (char*)malloc(51 * sizeof(char));
+        }
+    }
+    
+    vowelStartingCountAndLongestName(namesMatrix, rows, cols);
 
     return 0;
 }
