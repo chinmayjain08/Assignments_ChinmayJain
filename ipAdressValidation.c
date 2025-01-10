@@ -25,6 +25,8 @@ int validIPAdress(char* input){
     if(str == NULL) return 0;
     //empty
 
+    if(*str == '.') return 0;
+
     while(*str != '\0'){
 
         int num = 0;
