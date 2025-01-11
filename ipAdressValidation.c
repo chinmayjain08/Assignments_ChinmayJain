@@ -36,7 +36,7 @@ int validIPAdress(char* input){
         if(isDigit(*str)){
             while(isDigit(*str)){
                 num = num * 10 + (*str - '0');
-                if(*str == '0'){
+                if(num == 0){
                     if(*(str+1) != '\0' && *(str+1) != '.') {
                         // printf("zero case");
                         return 0;
