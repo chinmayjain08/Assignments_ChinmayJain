@@ -17,6 +17,10 @@ struct Node* createNode(int coeff, int power){
 
 void printPolynomial(struct Node* head) {
     struct Node* temp = head;
+    if(head == NULL){
+        printf("0\n");
+        return;
+    }   
     while (temp != NULL) {
         if(temp->power > 0){
             printf("%dx^%d", temp->coeff, temp->power);
