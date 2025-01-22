@@ -15,15 +15,30 @@ struct Node* createNode(int coeff, int power){
     return newNode;
 }
 
+struct Node* addLast(struct Node* head, int coeff, int power){
+    struct Node* newNode = createNode(coeff, power);
+    if(head == NULL){
+        head = newNode;
+        return head;
+    }
+    struct Node* temp = head;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    newNode->next = NULL;
+    return head;
+}
+
 void printPolynomial(struct Node* head) {
     struct Node* temp = head;
-    if(head == NULL){
-        printf("0\n");
-        return;
-    }   
     while (temp != NULL) {
         if(temp->power > 0){
-            printf("%dx^%d", temp->coeff, temp->power);
+            if(temp->power == 1){
+                printf("%dx", temp->coeff);
+            }else{
+                printf("%dx^%d", temp->coeff, temp->power);
+            }
         }else{
             printf("%d", temp->coeff);
         }
@@ -35,6 +50,37 @@ void printPolynomial(struct Node* head) {
     printf("\n");
 }
 
+struct Node* addSamePower(struct Node* head){
+    if(head == NULL)return head;
+    
+    struct Node* temp = head;
+    int maxPower = 0;
+    while(temp != NULL){
+        if(temp->power > maxPower){
+            maxPower = temp->power;
+        }
+        temp = temp->next;
+    }
+    
+    int arr[maxPower+1];
+    for(int i=0; i<=maxPower; i++){
+        arr[i] = 0;
+    }
+    
+    temp = head;
+    while(temp != NULL){
+        arr[temp->power] += temp->coeff;
+        temp = temp->next;
+    }
+    
+    struct Node* result = NULL;
+    for(int i=maxPower; i>=0; i--){
+        if(arr[i] > 0){
+            result = addLast(result, arr[i], i);
+        }
+    }
+    return result;
+}
 
 struct Node* multiplyPolynomial(struct Node* head1, struct Node* head2){
     struct Node* result = createNode(0,0);
@@ -54,26 +100,29 @@ struct Node* multiplyPolynomial(struct Node* head1, struct Node* head2){
         head1 = head1->next;
     }
     
-    return result->next;
+    //combine the added ones
+    struct Node* ans = addSamePower(result->next);
+    
+    return ans;
 }
 
 
 int main(){
     
-    struct Node* head1 = createNode(3,2);
+    struct Node* head1 = createNode(2,2);
     struct Node* sec1 = createNode(3,1);
-    struct Node* third1 = createNode(1,0);
-    struct Node* head2 = createNode(1,2);
-    struct Node* sec2 = createNode(4,1);
-    struct Node* third2 = createNode(3,0);
+    struct Node* third1 = createNode(4,0);
+    struct Node* head2 = createNode(1,1);
+    struct Node* sec2 = createNode(1,0);
+    // struct Node* third2 = createNode(3,0);
 
     head1->next = sec1;
     sec1->next = third1;
     third1->next = NULL;
 
     head2->next = sec2;
-    sec2->next = third2;
-    third2->next = NULL;
+    sec2->next = NULL;
+    // third2->next = NULL;
     
     struct Node* result = multiplyPolynomial(head1, head2);
     printPolynomial(result);
