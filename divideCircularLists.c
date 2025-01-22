@@ -84,8 +84,22 @@ int main(){
     printf("\n");
     giveTwoCircLists(head, &head1, &head2);
     
-    printLL(head1);
-    printLL(head2);
+    struct Node* temp = head1;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    temp->next = head1;
+    
+    temp = head2;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    temp->next = head2;
+    
+    printf("resultant circular lists : \n");
+    printCircularLL(head1);
+    printf("\n");
+    printCircularLL(head2);
     
     return 0;
 }
