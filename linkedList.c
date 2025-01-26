@@ -102,7 +102,7 @@ void display(){
 void updateAtPosition(int pos, int num){
     int len = lengthLL();
     if(head == NULL){
-        printf("no elements to update");
+        printf("no elements to update\n");
         return;
     }
     if(pos == 1){
@@ -135,6 +135,11 @@ void deleteAtBeginning(){
 void deleteAtEnd(){
     if(head == NULL){
         printf("no elements to delete");
+        return;
+    }
+    if(head->next == NULL){
+        free(head);
+        head = NULL;
         return;
     }
     struct Node* temp = head;
@@ -174,17 +179,25 @@ void deleteAtPosition(int pos){
     return;
 }
 
+void freeList(){
+    struct Node* temp = head;
+    while(temp != NULL){
+        struct Node* next = temp->next;
+        free(temp);
+        temp = next;
+    }
+    head = NULL;
+    return;
+}
 
 int main(){
 
     int noOfOperations;
     scanf("%d", &noOfOperations);
-
+    int choice,num,pos;
     for(int i=0; i<noOfOperations; i++){
-        int choice;
         scanf("%d", &choice);
         switch (choice){
-            int num,pos;
         case 1:
             scanf("%d", &num);
             insertAtEnd(num);
@@ -227,6 +240,6 @@ int main(){
             break;
         }
     }
-
+    freeList();
     return 0;
 }
