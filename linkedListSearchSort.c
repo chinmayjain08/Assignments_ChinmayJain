@@ -53,6 +53,23 @@ void sortLL(){
             }
         }
     }
+    printLL();
+    return;
+}
+void sortLLDesc(){
+    Node* i = head;
+    Node* j = NULL;
+    int temp;
+    for(i=head; i->next != NULL; i=i->next){
+        for(j=i->next; j != NULL; j=j->next){
+            if(i->data < j->data){
+                temp = i->data;
+                i->data = j->data;
+                j->data = temp;
+            }
+        }
+    }
+    printLL();
     return;
 }
 
@@ -161,13 +178,14 @@ int main(){
     //main question : 
     printf("1. Get Max Occuring Element\n");
     //extraas
-    printf("2. Sort the linked list\n");
-    printf("3. Search for presence of an element\n");
-    printf("4. Get maximum element in list\n");
-    printf("5. Position of maximum element\n");
-    printf("6. Get frequency of maximum element\n");
-    printf("7. Find mid element\n");
-    printf("8. Print the linked list\n");
+    printf("2. Sort the linked list in ascending order\n");
+    printf("3. Sort the linked list in descending order\n");
+    printf("4. Search for presence of an element\n");
+    printf("5. Get maximum element in list\n");
+    printf("6. Position of maximum element\n");
+    printf("7. Get frequency of maximum element\n");
+    printf("8. Find mid element\n");
+    printf("9. Print the linked list\n");
     int option;
     printf("Enter the option: ");
     scanf("%d", &option);
@@ -180,7 +198,10 @@ int main(){
     case 2:
         sortLL();
         break;
-    case 3: 
+    case 3:
+        sortLLDesc();
+        break;
+    case 4: 
         printf("Enter the element to search: ");
         int target;
         scanf("%d", &target);
@@ -192,23 +213,23 @@ int main(){
             printf("Element not found\n");
         }
         break;
-    case 4:
+    case 5:
         int max = getMax();
         printf("Maximum element in the list is %d\n", max);
         break;
-    case 5:
+    case 6:
         int maxIndex = getMaxIndex();
         printf("Position of maximum element is %d\n", maxIndex);
         break;
-    case 6:
+    case 7:
         int freq = getFreqOfMax();
         printf("Frequency of maximum element is %d\n", freq);
         break;
-    case 7:
+    case 8:
         int midElement = getMid();
         printf("Mid element is %d\n", midElement);
         break;
-    case 8:
+    case 9:
         printLL();
         break;
     default:
