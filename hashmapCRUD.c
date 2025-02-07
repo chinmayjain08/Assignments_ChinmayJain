@@ -17,6 +17,10 @@ int hashFunction(int key) {
 }
 
 void insert(int key, int value) {
+    if (key < 0 || value < 0) {
+        printf("Key and value must be positive.\n");
+        return;
+    }
     int index = hashFunction(key);
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->key = key;
